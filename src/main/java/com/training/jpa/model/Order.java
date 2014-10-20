@@ -19,7 +19,7 @@ import java.util.Collection;
 @Cacheable
 public class Order extends AbstractEntity {
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany
 	@JoinColumn
 	private Collection<Product> products = new ArrayList<Product>();
 

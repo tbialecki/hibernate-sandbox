@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -15,10 +18,12 @@ public class ShoppingRepository {
     private EntityManager entityManager;
 
     public List<Product> findProductsInCategory(String category) {
-        return entityManager
-                .createQuery("SELECT p FROM Product p WHERE p.category = :category", Product.class)
-                .setParameter("category", category)
-                .getResultList();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> query = criteriaBuilder.createQuery(Product.class);
+        Root<Product> productRoot = query.from(Product.class);
+        query.select(productRoot).where(criteriaBuilder.equal(productRoot.get("category"), category));
+
+        return entityManager.createQuery(query).getResultList();
     }
 
     public void saveProduct(Product product) {

@@ -13,7 +13,7 @@ import java.util.Collection;
 @Entity
 public class Client extends AbstractEntity {
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany()
 	@JoinColumn
 	private Collection<Order> orders = new ArrayList<Order>();
 

@@ -1,8 +1,10 @@
 package com.training.jpa.service;
 
 import com.training.jpa.model.Client;
+import com.training.jpa.model.Order;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -13,15 +15,21 @@ import javax.transaction.Transactional;
 @Service
 public class ClientService {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @Inject
+    private ShoppingListService shoppingListService;
 
-	@Transactional(Transactional.TxType.REQUIRES_NEW)
-	public void saveClient(Client client) {
-		entityManager.persist(client);
-	}
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	public Client findClient(int clientId) {
-		return entityManager.find(Client.class, clientId);
-	}
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void saveClient(Client client) {
+        for (Order order : client.getOrders()) {
+            shoppingListService.saveOrder(order);
+        }
+        entityManager.persist(client);
+    }
+
+    public Client findClient(int clientId) {
+        return entityManager.find(Client.class, clientId);
+    }
 }
