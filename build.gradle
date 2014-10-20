@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.springframework:spring-context:4.1.0.RELEASE'
+	compile 'org.springframework:spring-orm:4.1.0.RELEASE'
+	compile 'org.hibernate:hibernate-core:4.3.6.Final'
+	compile 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
+	compile 'org.hibernate:hibernate-testing:4.3.6.Final'
+	compile 'com.h2database:h2:1.4.180'
+	compile 'javax:javaee-api:7.0'
+	testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+	testCompile 'org.spockframework:spock-spring:0.7-groovy-2.0'
+	testCompile 'org.springframework:spring-test:4.1.0.RELEASE'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.0'
+}
