@@ -3,6 +3,7 @@ package com.training.jpa.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -26,8 +27,14 @@ public class DatabaseConfig {
 
 	@Bean
 	public DataSource db() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
-	}
+		//return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
+        SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource();
+        simpleDriverDataSource.setDriverClass(org.h2.Driver.class);
+        simpleDriverDataSource.setUrl("jdbc:h2:file:D:/dev/hibernate-sandbox/target/database/sandbox.db;AUTO_RECONNECT=TRUE");
+        simpleDriverDataSource.setUsername("");
+        simpleDriverDataSource.setPassword("");
+        return simpleDriverDataSource;
+    }
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
